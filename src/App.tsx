@@ -3,270 +3,368 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   ChevronRight, ArrowRight, Shield, Zap, 
-  Wrench, Car, Gem, ShieldCheck, Check
+  MapPin, Car, Gem, ShieldCheck, Check,
+  Instagram, Map, Phone, Clock, Info,
+  Menu, X, Star
 } from 'lucide-react';
 
-const LOGO_URL = "https://scontent-lga3-2.cdninstagram.com/v/t51.2885-19/472307243_2353191325036075_1140803435022429131_n.jpg?cb=8438d1d6-89aba764&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-lga3-2.cdninstagram.com&_nc_cat=107&_nc_oc=Q6cZ2gFSPPfbZ-CVSKbh1fRhcePdOfFwoYapTu0IPJmvGvxyx3VuF4JGX1oL1eKIMhsGjJe8MX2GkwVCPTtVzs17ZpxG&_nc_ohc=ZJuf_IbbeMsQ7kNvwEApZN4&_nc_gid=pADZ-PaIcH1aCo4Rz3XAMA&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_Af6hC0GsyMOHjuKxqD2Fk0WT_GYzZ8ISLOmDX7_pcDSukA&oe=69FD3E26&_nc_sid=7a9f4b";
+const LOGO_URL = "https://scontent-lga3-2.cdninstagram.com/v/t51.82787-19/639976399_17996417999914369_5839506053870583159_n.jpg?cb=8438d1d6-89aba764&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-lga3-2.cdninstagram.com&_nc_cat=101&_nc_oc=Q6cZ2gFAjA_qovEmA_B-zTtOfNHGPEJ8N8jPN34E4hyjtSNbgsQqSkMvngoCr820j7iiu3xKRadhcx8d01Zo-J1vypvm&_nc_ohc=oDNEnA_halEQ7kNvwGeUZcs&_nc_gid=arNAUAqkUdHcuJoWaFF9iQ&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_Af7GkYUI-W6Yc7jkux1F2krMv3Pk7loHtXnM1VINn3t_Sw&oe=69FD206D&_nc_sid=7a9f4b";
 
-const MinimalHero = () => (
-  <section id="minimal-hero" className="relative h-screen w-full flex items-center border-y border-white/5 px-8 md:px-24 overflow-hidden bg-black text-white font-sans">
-    <div className="absolute inset-0 z-0">
-      <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=2670" className="w-full h-full object-cover opacity-10 grayscale" alt="" />
-    </div>
-    <div className="grid lg:grid-cols-2 w-full max-w-[1440px] mx-auto items-end gap-24 relative z-10 mt-20">
-      <div className="flex flex-col">
-        <div className="flex items-center gap-4 mb-4">
-          <img src={LOGO_URL} alt="SOS Auto" className="w-12 h-12 rounded-full border border-red-800" />
-          <span className="text-red-800 font-bold tracking-widest uppercase text-xs">SOS AUTO GROUP</span>
-        </div>
-        <h2 className="text-[10vw] font-black leading-[0.8] mb-12 tracking-[-0.06em]">SOS <br /> <span className="text-red-700">AUTO</span></h2>
-        <p className="max-w-md text-white/40 text-lg font-light leading-relaxed mb-16 uppercase tracking-[0.2em]">
-          Premium Leasing, Financing, Exotic Rentals & Professional Collision Services.
-        </p>
-        <button id="initiate-btn" className="flex items-center gap-8 group text-left">
-          <div className="w-20 h-20 bg-red-800 rounded-full flex items-center justify-center transition-transform hover:scale-110 shadow-[0_0_30px_rgba(153,27,27,0.3)]">
-            <ArrowRight className="text-white" size={32} />
+const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-luxury-black/90 backdrop-blur-md py-4' : 'bg-transparent py-8'}`}>
+      <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex justify-between items-center">
+        <div className="flex items-center gap-3">
+          <img src={LOGO_URL} alt="Ege Rentals" className="w-12 h-12 rounded-full border border-gold/30" />
+          <div className="flex flex-col">
+            <span className="text-white font-sans font-bold tracking-[0.3em] uppercase text-sm leading-none">EGE RENTALS</span>
+            <span className="text-gold text-[10px] tracking-[0.2em] uppercase mt-1">Exotic Rental Co.</span>
           </div>
-          <span className="text-xs font-bold uppercase tracking-[0.6em] text-red-700">Initialize</span>
+        </div>
+
+        <div className="hidden md:flex items-center gap-10">
+          {['The Fleet', 'Services', 'Locations', 'Mandatory Info'].map((item) => (
+            <a key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} className="text-white/60 hover:text-gold transition-colors text-[10px] uppercase tracking-[0.3em] font-medium">
+              {item}
+            </a>
+          ))}
+          <button className="px-6 py-2 border border-gold/50 text-gold text-[10px] uppercase tracking-[0.2em] hover:bg-gold hover:text-black transition-all">
+            Quick Deal
+          </button>
+        </div>
+
+        <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
+
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-luxury-black border-b border-gold/10 overflow-hidden"
+          >
+            <div className="flex flex-col p-8 gap-6">
+              {['The Fleet', 'Services', 'Locations', 'Mandatory Info'].map((item) => (
+                <a key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} className="text-white font-sans text-xl tracking-widest uppercase" onClick={() => setMobileMenuOpen(false)}>
+                  {item}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
+  );
+};
+
+const Hero = () => (
+  <section className="relative min-h-screen flex items-center justify-center bg-luxury-black overflow-hidden px-6 md:px-12">
+    <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-luxury-black/40 to-transparent z-10" />
+      <motion.img 
+        initial={{ scale: 1.1, opacity: 0 }}
+        animate={{ scale: 1, opacity: 0.5 }}
+        transition={{ duration: 2 }}
+        src="https://images.unsplash.com/photo-1631214499520-7a14d0a89e82?auto=format&fit=crop&q=80&w=2670" 
+        className="w-full h-full object-cover grayscale"
+        alt="Luxury Car"
+      />
+    </div>
+
+    <div className="relative z-20 text-center max-w-7xl mx-auto">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="mb-6"
+      >
+        <span className="inline-block px-4 py-1 border border-gold/30 rounded-full text-gold text-[10px] uppercase tracking-[0.5em] mb-8">
+          The Ultimate Prestige
+        </span>
+      </motion.div>
+      
+      <motion.h1 
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.7, duration: 1 }}
+        className="text-[12vw] md:text-[10vw] font-serif italic text-white leading-[0.85] tracking-tight mb-8"
+      >
+        EGE <span className="text-gold">RENTALS</span>
+      </motion.h1>
+
+      <motion.p 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+        className="text-white/40 text-sm md:text-lg font-light tracking-[0.4em] uppercase max-w-2xl mx-auto mb-16"
+      >
+        NY • NJ • CT • FL • Luxury & Exotic Collections
+      </motion.p>
+
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1.5 }}
+        className="flex flex-col md:flex-row justify-center items-center gap-8"
+      >
+        <button className="px-12 py-5 bg-gold text-black font-bold uppercase tracking-[0.3em] text-xs transition-transform hover:scale-105 hover:bg-gold-light active:scale-95 shadow-[0_0_40px_rgba(212,175,55,0.2)]">
+          Explore Collection
+        </button>
+        <button className="px-12 py-5 border border-white/20 text-white font-bold uppercase tracking-[0.3em] text-xs transition-colors hover:bg-white/10">
+          Inquire Now
+        </button>
+      </motion.div>
+    </div>
+
+    <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20">
+      <motion.div 
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        className="w-px h-16 bg-gradient-to-b from-gold to-transparent opacity-50"
+      />
     </div>
   </section>
 );
 
-const FleetGridHero = () => (
-  <section id="fleet-grid" className="relative h-screen w-full p-8 md:p-12 overflow-hidden bg-[#050505] text-white font-sans">
-    <div className="flex justify-between items-end mb-12">
-      <div className="flex flex-col gap-2">
-        <span className="text-[10px] uppercase tracking-[0.6em] text-red-700">The Collection</span>
-        <h2 className="text-6xl font-black tracking-tighter uppercase">SOS FLEET</h2>
-      </div>
-      <button className="text-xs font-bold uppercase border-b border-red-700 text-red-700 pb-2">View Inventory</button>
-    </div>
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-[60vh]">
-      <div className="col-span-2 row-span-2 bg-white/5 border border-white/5 relative group overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c3d9?auto=format&fit=crop&q=80&w=2670" className="w-full h-full object-cover opacity-50 grayscale group-hover:grayscale-0 transition-all duration-700" />
-        <div className="absolute bottom-8 left-8">
-           <span className="text-4xl font-black italic">ULTIMATE LUXURY</span>
-        </div>
-      </div>
-      <div className="col-span-1 bg-white/5 border border-white/5 p-8 flex flex-col justify-between hover:bg-red-950/20 transition-all">
-         <span className="text-[10px] opacity-20 uppercase tracking-widest text-red-700">Available</span>
-         <span className="text-2xl font-bold uppercase text-zinc-300">Any Make & Model</span>
-      </div>
-      <div className="col-span-1 bg-red-800 text-white p-8 flex flex-col justify-between shadow-[0_0_50px_rgba(153,27,27,0.1)]">
-         <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">Premium Service</span>
-         <span className="text-2xl font-bold uppercase italic">Auto Leasing & Financing</span>
-      </div>
-      <div className="col-span-2 bg-white/5 border border-white/5 p-8 flex items-center justify-between group">
-         <div className="flex flex-col">
-            <span className="text-[10px] opacity-20 uppercase tracking-widest text-red-700">Operations</span>
-            <span className="text-xl font-bold uppercase">Leasing, Rentals & Repair</span>
-         </div>
-         <Car size={32} className="opacity-20 group-hover:opacity-100 group-hover:text-red-700 transition-all" />
-      </div>
-    </div>
-  </section>
-);
-
-const TestimonialHero = () => (
-  <section id="testimonial" className="relative h-screen w-full flex items-center justify-center p-24 overflow-hidden bg-[#0a0a0a] text-white font-sans">
-    <div className="relative z-10 text-center max-w-5xl">
-       <span className="text-7xl font-sans italic text-red-800 opacity-20 mb-12 block leading-none">“</span>
-       <h2 className="text-6xl font-light leading-tight tracking-tight mb-20 italic">"At SOS Auto Group, we specialize in affordable car leasing with flexible options to fit your budget. We make leasing easy, stress-free, and cost-effective."</h2>
-       <div className="flex flex-col items-center gap-4">
-          <div className="w-24 h-[1px] bg-red-800" />
-          <span className="text-xs font-bold uppercase tracking-[0.8em] text-red-700 text-zinc-500">SOS TEAM // EXPERTISE V20 YEARS</span>
-       </div>
-    </div>
-  </section>
-);
-
-const TeamHero = () => (
-  <section id="team" className="relative h-screen w-full p-24 overflow-hidden bg-white text-black font-sans">
-    <div className="flex justify-between items-end mb-16">
-      <h2 className="text-7xl font-black uppercase tracking-tighter">EXPERT <br /> <span className="text-red-800 font-black">COMMAND</span></h2>
-      <p className="max-w-xs text-[10px] opacity-40 uppercase tracking-[0.4em]">The specialists behind the SOS service.</p>
-    </div>
-    <div className="grid grid-cols-4 gap-8">
-      {[ {n: "VANCE H", r: "Leasing Director"}, {n: "SARAH L", r: "Exotic Concierge"}, {n: "MARC D", r: "Body Shop Lead"}, {n: "ELENA S", r: "Financing Head"} ].map((m, i) => (
-        <div key={i} className="flex flex-col group cursor-pointer">
-           <div className="aspect-[3/4] bg-zinc-100 mb-6 overflow-hidden relative border-b-4 border-transparent group-hover:border-red-800 transition-all">
-              <div className="absolute inset-0 bg-red-800 opacity-0 group-hover:opacity-10 transition-opacity" />
-           </div>
-           <span className="text-xl font-bold uppercase">{m.n}</span>
-           <span className="text-[10px] opacity-30 uppercase tracking-widest">{m.r}</span>
+const StatsSection = () => (
+  <section className="py-24 bg-luxury-black border-y border-white/5">
+    <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-12">
+      {[
+        { label: "Followers", value: "1,687+", icon: <Instagram size={20} /> },
+        { label: "Luxury States", value: "4 Locations", icon: <MapPin size={20} /> },
+        { label: "Premium Fleet", value: "Exotic & Economy", icon: <Car size={20} /> },
+        { label: "Support", value: "24/7 Dedicated", icon: <Shield size={20} /> }
+      ].map((stat, i) => (
+        <div key={i} className="flex flex-col items-center text-center">
+          <div className="text-gold mb-4 opacity-50">{stat.icon}</div>
+          <span className="text-white text-3xl font-serif mb-1 italic">{stat.value}</span>
+          <span className="text-white/30 text-[10px] uppercase tracking-[0.3em]">{stat.label}</span>
         </div>
       ))}
     </div>
   </section>
 );
 
-const SwissValues = () => (
-  <section id="values" className="relative h-screen w-full bg-white text-black p-24 font-sans font-black flex items-center">
-    <div className="grid grid-cols-12 gap-8 w-full uppercase">
-       <div className="col-span-1 border-l-4 border-red-800 pl-8 flex flex-col justify-between h-[400px]">
-          <span className="text-xs text-red-700">01</span>
-          <span className="text-xs">02</span>
-          <span className="text-xs">03</span>
-       </div>
-       <div className="col-span-11 flex flex-col gap-12">
-          <div className="flex flex-col">
-             <h2 className="text-9xl tracking-tighter leading-none italic">LEASING.</h2>
-             <p className="text-xs font-medium max-w-md mt-4 ml-2">New and used auto leasing with flexible plans for every driver.</p>
-          </div>
-          <div className="flex flex-col ml-24">
-             <h2 className="text-9xl tracking-tighter leading-none italic">RENTALS.</h2>
-             <p className="text-xs font-medium max-w-md mt-4 ml-2 text-red-700">Exotic & luxury car rentals for the ultimate performance experience.</p>
-          </div>
-          <div className="flex flex-col ml-48 text-zinc-950">
-             <h2 className="text-9xl tracking-tighter leading-none italic uppercase">REPAIR</h2>
-             <p className="text-xs font-medium max-w-md mt-4 ml-2">Auto collision body shop restoring your vehicle to perfection.</p>
-          </div>
-       </div>
-    </div>
-  </section>
-);
+const FeatureGrid = () => {
+  const cars = [
+    { name: "Phantom Series", category: "Rolls Royce", img: "https://images.unsplash.com/photo-1631214499520-7a14d0a89e82?auto=format&fit=crop&q=80&w=600" },
+    { name: "Aventador S", category: "Lamborghini", img: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80&w=600" },
+    { name: "911 Turbo S", category: "Porsche", img: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=600" },
+    { name: "G63 AMG", category: "Mercedes", img: "https://images.unsplash.com/photo-1520031441872-265ec1765879?auto=format&fit=crop&q=80&w=600" }
+  ];
 
-const TimelineHero = () => (
-  <section id="legacy" className="relative h-screen w-full p-24 bg-white text-red-800 font-black italic overflow-hidden font-sans border-y border-zinc-100">
-    <div className="flex flex-col h-full">
-       <h2 className="text-9xl tracking-tighter uppercase mb-12 border-b-8 border-red-800 pb-8 text-black">LEGACY.</h2>
-       <div className="flex-1 flex gap-24 items-end overflow-hidden">
+  return (
+    <section id="the-fleet" className="py-32 bg-luxury-black px-6 md:px-12">
+      <div className="max-w-[1600px] mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-20">
+          <div className="max-w-2xl">
+            <span className="text-gold text-xs uppercase tracking-[0.6em] mb-4 block">The Collection</span>
+            <h2 className="text-6xl md:text-8xl font-serif italic text-white tracking-tight leading-none mb-6">Masterpieces in <span className="text-gold">Motion</span></h2>
+            <p className="text-white/40 text-sm md:text-base leading-relaxed tracking-wide">
+              From high-performance supercars to sophisticated luxury sedans, our fleet is curated for those who demand the absolute best in automotive engineering and style.
+            </p>
+          </div>
+          <button className="hidden md:flex items-center gap-4 text-white hover:text-gold transition-all group mt-8 md:mt-0">
+            <span className="text-[10px] uppercase tracking-[0.4em] font-bold">View Inventory</span>
+            <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {cars.map((car, i) => (
+            <motion.div 
+              key={i}
+              whileHover={{ y: -10 }}
+              className="relative group aspect-[4/5] overflow-hidden bg-white/5 border border-white/5 cursor-pointer"
+            >
+              <img src={car.img} alt={car.name} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000" />
+              <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-transparent to-transparent opacity-80" />
+              <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
+                <div className="flex flex-col">
+                  <span className="text-gold text-[10px] uppercase tracking-[0.5em] mb-1">{car.category}</span>
+                  <span className="text-white text-3xl font-serif italic tracking-tight">{car.name}</span>
+                </div>
+                <div className="w-12 h-12 flex items-center justify-center border border-white/20 group-hover:border-gold group-hover:bg-gold group-hover:text-black transition-all">
+                  <ChevronRight size={20} />
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ImportantInfo = () => (
+  <section id="mandatory-info" className="py-32 bg-white px-6 md:px-12">
+    <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-24 items-center">
+      <div className="relative">
+        <div className="absolute -top-12 -left-12 w-64 h-64 bg-gold/10 rounded-full blur-3xl z-0" />
+        <img 
+          src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=2670" 
+          className="relative z-10 w-full h-[600px] object-cover shadow-2xl skew-y-2 grayscale hover:grayscale-0 transition-all duration-700" 
+          alt="Luxury Details"
+        />
+        <div className="absolute -bottom-8 -right-8 bg-black p-12 text-white z-20 shadow-xl hidden lg:block">
+           <span className="text-gold text-xs uppercase tracking-[0.4em] mb-4 block">Requirements</span>
+           <h3 className="text-4xl font-serif italic leading-none mb-4">Mandatory Policy</h3>
+           <p className="text-white/40 text-[10px] uppercase tracking-widest font-medium">Established 2024 // EGE PRESTIGE</p>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-12">
+        <div className="flex flex-col">
+          <span className="text-gold text-xs uppercase tracking-[0.6em] mb-4 block">Policy & Ethics</span>
+          <h2 className="text-5xl md:text-7xl font-sans font-black tracking-tighter leading-none mb-8">SECURE <br /><span className="text-gold">EXPERIENCE.</span></h2>
+          <p className="text-black/60 leading-relaxed font-body">Our commitment to safety and excellence ensures every rental meets the highest standards of security. We maintain a zero-compromise policy on our vehicles' integrity.</p>
+        </div>
+
+        <div className="grid gap-8">
           {[
-            {y: "2010", t: "Inception", d: "First leasing agreements signed in regional markets."},
-            {y: "2015", t: "Collection", d: "Exotic rental fleet reaches milestone capacity."},
-            {y: "2024", t: "SOS AUTO", d: "The premier destination for full spectrum auto solutions."}
+            { title: "Insurance Compliance", desc: "Valid insurance coverage is strictly mandatory for all luxury and exotic rentals.", icon: <ShieldCheck size={24} className="text-gold" /> },
+            { title: "Security Deposit", desc: "A standard security deposit is required to guarantee vehicle protection.", icon: <Shield size={24} className="text-gold" /> },
+            { title: "Rental Options", desc: "Discover our diverse range of Luxury & Economy rentals tailored to you.", icon: <Gem size={24} className="text-gold" /> },
+            { title: "Flexible Deals", desc: "Experience daily, weekly, or monthly arrangements at competitive rates.", icon: <Zap size={24} className="text-gold" /> }
           ].map((item, i) => (
-            <div key={i} className="flex-1 flex flex-col gap-6">
-               <span className="text-8xl leading-none text-red-700">{item.y}</span>
-               <div className="flex flex-col gap-2">
-                 <span className="text-2xl uppercase font-black text-black">{item.t}</span>
-                 <p className="text-xs not-italic max-w-xs opacity-60 font-bold uppercase text-zinc-600">{item.d}</p>
-               </div>
+            <div key={i} className="flex gap-6 group hover:bg-gold/5 p-6 transition-colors rounded-xl border border-transparent hover:border-gold/10">
+              <div className="mt-1">{item.icon}</div>
+              <div className="flex flex-col gap-1">
+                <span className="text-lg font-bold uppercase tracking-tight text-black">{item.title}</span>
+                <p className="text-black/50 text-sm leading-relaxed">{item.desc}</p>
+              </div>
             </div>
           ))}
-       </div>
+        </div>
+      </div>
     </div>
   </section>
 );
 
-const CardsLibrary = () => (
-  <section id="cards-library" className="relative h-screen w-full p-24 overflow-hidden bg-[#0a0a0a] text-white font-sans">
-    <div className="flex flex-col gap-12 h-full">
-       <div className="flex justify-between items-baseline border-b border-white/10 pb-8">
-          <h2 className="text-4xl font-bold italic text-red-700">The Portfolio.</h2>
-          <span className="text-xs uppercase tracking-widest opacity-40 italic">Sorted By SOS // 2024</span>
-       </div>
-       <div className="flex-1 flex gap-8 overflow-x-auto pb-12 snap-x hide-scrollbar">
-          {[
-            {n: "Luxury Lease", p: "Custom Rate", d: "Flexible financing for any make and model you desire." },
-            {n: "Exotic Rental", p: "$1,200/day", d: "Experience the thrill of absolute performance." },
-            {n: "Body Shop", p: "OEM Quality", d: "Master craft restoration and factory paint matching." },
-            {n: "Fleet Admin", p: "Consultation", d: "End to end management for corporate vehicle needs." }
-          ].map((item, i) => (
-            <div key={i} className="min-w-[400px] h-full bg-white/5 border border-white/10 p-12 flex flex-col justify-between snap-center group hover:border-red-700 transition-colors">
-               <div className="flex flex-col gap-4">
-                  <span className="text-[10px] text-red-700 uppercase tracking-widest font-bold not-italic">Service Tier</span>
-                  <h3 className="text-5xl font-black italic leading-none">{item.n}</h3>
-                  <p className="text-sm opacity-40 leading-relaxed mt-4 italic">{item.d}</p>
-               </div>
-               <div className="flex justify-between items-end not-italic">
-                  <span className="text-3xl font-black text-red-700">{item.p}</span>
-                  <button className="px-8 py-4 bg-red-800 text-white text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all">Inquire</button>
-               </div>
+const LocationsSection = () => (
+  <section id="locations" className="py-32 bg-luxury-black px-6 md:px-12 relative overflow-hidden">
+    <div className="absolute top-0 right-0 w-1/2 h-full opacity-5 pointer-events-none">
+       <Map className="w-full h-full scale-150" />
+    </div>
+    
+    <div className="max-w-[1600px] mx-auto">
+      <div className="text-center mb-24">
+        <span className="text-gold text-xs uppercase tracking-[0.6em] mb-4 block">Continental Presence</span>
+        <h2 className="text-7xl md:text-9xl font-serif italic text-white leading-none">SERVICE <span className="text-white/20">ZONES.</span></h2>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        {['New York', 'New Jersey', 'Connecticut', 'Florida'].map((state, i) => (
+          <motion.div 
+            key={i}
+            whileHover={{ scale: 1.05 }}
+            className="p-12 border border-white/5 bg-white/2 flex flex-col items-center text-center group hover:border-gold/30 transition-all"
+          >
+            <MapPin size={32} className="text-gold/30 group-hover:text-gold transition-colors mb-8" />
+            <span className="text-white text-3xl font-serif italic mb-4">{state}</span>
+            <p className="text-white/30 text-[10px] uppercase tracking-[0.3em] group-hover:text-gold/50 transition-colors">Fully Operational 24/7</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const Footer = () => (
+  <footer className="pt-32 pb-12 bg-luxury-black text-white px-6 md:px-12">
+    <div className="max-w-[1600px] mx-auto">
+      <div className="grid md:grid-cols-12 gap-16 pb-24 border-b border-white/5">
+        <div className="md:col-span-4 flex flex-col gap-8">
+          <div className="flex items-center gap-3">
+            <img src={LOGO_URL} alt="Ege Rentals" className="w-16 h-16 rounded-full border border-gold/30" />
+            <div className="flex flex-col">
+              <span className="text-white font-sans font-bold tracking-[0.3em] uppercase text-xl leading-none">EGE RENTALS</span>
+              <span className="text-gold text-[10px] tracking-[0.2em] uppercase mt-1">Exotic Rental Company</span>
             </div>
-          ))}
-       </div>
+          </div>
+          <p className="text-white/40 leading-relaxed font-light max-w-sm">
+            Setting the standard in luxury automotive solutions. From exotic car rentals to premium economy services across the East Coast and Florida.
+          </p>
+          <div className="flex gap-4">
+             <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold hover:text-black transition-all cursor-pointer">
+                <Instagram size={18} />
+             </div>
+             <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold hover:text-black transition-all cursor-pointer">
+                <Phone size={18} />
+             </div>
+          </div>
+        </div>
+
+        <div className="md:col-span-2 flex flex-col gap-8">
+          <span className="text-xs uppercase tracking-[0.4em] font-bold text-gold">Navigation</span>
+          <div className="flex flex-col gap-4">
+            {['The Fleet', 'Services', 'Locations', 'Booking'].map(item => (
+              <a key={item} href="#" className="text-white/40 hover:text-white transition-colors text-sm font-light italic">{item}</a>
+            ))}
+          </div>
+        </div>
+
+        <div className="md:col-span-2 flex flex-col gap-8">
+          <span className="text-xs uppercase tracking-[0.4em] font-bold text-gold">Support</span>
+          <div className="flex flex-col gap-4">
+            {['Insurance Policy', 'Security Deposits', 'Privacy', 'Contact'].map(item => (
+              <a key={item} href="#" className="text-white/40 hover:text-white transition-colors text-sm font-light italic">{item}</a>
+            ))}
+          </div>
+        </div>
+
+        <div className="md:col-span-4 flex flex-col gap-8">
+          <span className="text-xs uppercase tracking-[0.4em] font-bold text-gold">Newsletter</span>
+          <p className="text-white/40 text-sm font-light">Join our elite list for monthly deals and fleet updates.</p>
+          <div className="flex flex-col gap-3">
+             <input type="text" placeholder="Email Address" className="bg-white/5 border border-white/10 px-6 py-4 text-sm focus:border-gold outline-none transition-all placeholder:text-white/20" />
+             <button className="w-full py-4 bg-gold text-black font-bold uppercase tracking-widest text-[10px]">Subscribe</button>
+          </div>
+        </div>
+      </div>
+
+      <div className="pt-12 flex flex-col md:flex-row justify-between items-center gap-8">
+        <span className="text-[10px] text-white/20 uppercase tracking-[0.3em]">© 2024 Ege Rentals Exotic Company. All Rights Reserved.</span>
+        <div className="flex gap-8 items-center opacity-20">
+           <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" className="h-4 grayscale invert" alt="Visa" />
+           <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" className="h-6 grayscale invert" alt="Mastercard" />
+           <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" className="h-5 grayscale invert" alt="Paypal" />
+        </div>
+      </div>
     </div>
-  </section>
-);
-
-const BrutalistShowcase = () => (
-  <section id="brutalist" className="relative h-screen w-full p-24 overflow-hidden bg-black text-white font-black italic font-sans">
-     <div className="grid grid-cols-4 grid-rows-2 h-full gap-2">
-        <div className="col-span-2 row-span-2 bg-red-800 text-white p-12 flex flex-col justify-between relative group">
-           <span className="text-[10px] font-bold uppercase tracking-widest opacity-80 uppercase">Precision Repair</span>
-           <h2 className="text-7xl lg:text-8xl tracking-[-0.05em] leading-[0.9] uppercase not-italic font-black">COLLISION</h2>
-           <button className="px-12 py-6 border-4 border-white text-xl hover:bg-white hover:text-red-700 transition-all font-black uppercase">Schedule Now</button>
-        </div>
-        <div className="col-span-2 row-span-1 border-4 border-white/10 p-12 flex flex-col justify-end hover:bg-red-800 transition-colors group">
-           <span className="text-6xl uppercase group-hover:italic transition-all">FACTORY MATCH</span>
-        </div>
-        <div className="col-span-1 row-span-1 border-4 border-white/10 flex items-center justify-center p-8 bg-white/5">
-           <Wrench size={64} className="opacity-20 text-red-700" />
-        </div>
-        <div className="col-span-1 row-span-1 border-4 border-white/10 flex flex-col justify-between p-8 text-right bg-white/5">
-           <ShieldCheck size={24} className="ml-auto text-red-700" />
-           <span className="text-xs font-bold uppercase leading-none">SOS WARRANTY V4</span>
-        </div>
-     </div>
-  </section>
-);
-
-const FinalCTA = () => (
-  <section id="cta" className="relative h-screen w-full flex flex-col items-center justify-center bg-black text-white p-24 overflow-hidden border-t border-red-950 font-sans">
-     <div className="absolute inset-0 opacity-20">
-        <img id="footer-bg-img" src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=2670" className="w-full h-full object-cover" />
-     </div>
-     <div className="relative z-10 flex flex-col items-center gap-12 text-center">
-        <h2 className="text-[10vw] font-black tracking-tighter uppercase leading-[0.8] mb-0">DRIVE <br /> <span className="text-red-700 italic">NOW.</span></h2>
-        <div className="flex gap-4">
-           <button className="px-16 py-6 bg-red-800 text-white font-black uppercase text-xs tracking-[0.4em] hover:scale-105 transition-all shadow-[0_10px_40px_rgba(153,27,27,0.4)]">Build Your Lease</button>
-           <button className="px-16 py-6 border border-white/20 font-black uppercase text-xs tracking-[0.4em] hover:bg-white/10 transition-all">Rent Exotic</button>
-        </div>
-     </div>
-  </section>
+  </footer>
 );
 
 export default function App() {
   return (
-    <div className="bg-[#050a0a] text-white w-full min-h-screen overflow-x-hidden selection:bg-red-800/30 font-sans">
-      <motion.div className="w-full">
-        <MinimalHero />
-      </motion.div>
-      
-      <motion.div className="w-full">
-        <FleetGridHero />
-      </motion.div>
-      
-      <motion.div className="w-full">
-        <TestimonialHero />
-      </motion.div>
-      
-      <motion.div className="w-full">
-        <TeamHero />
-      </motion.div>
-      
-      <motion.div className="w-full">
-        <SwissValues />
-      </motion.div>
-      
-      <motion.div className="w-full">
-        <TimelineHero />
-      </motion.div>
-      
-      <motion.div className="w-full">
-        <CardsLibrary />
-      </motion.div>
-      
-      <motion.div className="w-full">
-        <BrutalistShowcase />
-      </motion.div>
-      
-      <motion.div className="w-full mt-24">
-        <FinalCTA />
-      </motion.div>
-
-      {/* Footer Branding */}
-      <footer id="main-footer" className="py-12 bg-black border-t border-white/5 text-center">
-        <img src={LOGO_URL} alt="SOS Auto" className="w-12 h-12 rounded-full mx-auto mb-4 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer" />
-        <p className="text-[10px] font-sans uppercase tracking-[0.5em] text-white/20">© 2024 SOS AUTO GROUP // SYSTEM ACCESS GRANTED</p>
-      </footer>
+    <div className="bg-luxury-black min-h-screen selection:bg-gold selection:text-black">
+      <Navbar />
+      <main>
+        <Hero />
+        <StatsSection />
+        <FeatureGrid />
+        <ImportantInfo />
+        <LocationsSection />
+      </main>
+      <Footer />
     </div>
   );
 }
