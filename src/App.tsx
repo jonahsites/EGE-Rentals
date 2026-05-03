@@ -76,69 +76,44 @@ const Navbar = () => {
 };
 
 const Hero = () => (
-  <section className="relative min-h-screen flex items-center justify-center bg-luxury-black overflow-hidden px-6 md:px-12">
+  <section className="relative h-screen min-h-[800px] w-full flex flex-col items-center justify-center overflow-hidden px-8 font-serif bg-[#0a0a0a]">
     <div className="absolute inset-0 z-0">
-      <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-luxury-black/40 to-transparent z-10" />
-      <motion.img 
-        initial={{ scale: 1.1, opacity: 0 }}
-        animate={{ scale: 1, opacity: 0.5 }}
-        transition={{ duration: 2 }}
-        src="https://images.unsplash.com/photo-1631214499520-7a14d0a89e82?auto=format&fit=crop&q=80&w=2670" 
-        className="w-full h-full object-cover grayscale"
-        alt="Luxury Car"
-      />
+      <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=2670" className="w-full h-full object-cover opacity-30 grayscale" alt="Luxury Automotive" />
+      <div className="absolute inset-0 bg-radial-[at_50%_50%] from-transparent via-black/40 to-black" />
     </div>
-
-    <div className="relative z-20 text-center max-w-7xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        className="mb-6"
+    <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center text-center">
+      <motion.span 
+        initial={{ y: 20, opacity: 0 }} 
+        whileInView={{ y: 0, opacity: 1 }} 
+        transition={{ duration: 0.8 }}
+        className="text-[10px] font-sans font-bold tracking-[0.8em] text-[#C5A47E] uppercase mb-8"
       >
-        <span className="inline-block px-4 py-1 border border-gold/30 rounded-full text-gold text-[10px] uppercase tracking-[0.5em] mb-8">
-          The Ultimate Prestige
-        </span>
-      </motion.div>
-      
+        Elite Registry Protocol 0.1
+      </motion.span>
       <motion.h1 
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7, duration: 1 }}
-        className="text-[12vw] md:text-[10vw] font-serif italic text-white leading-[0.85] tracking-tight mb-8"
+        initial={{ scale: 0.9, opacity: 0 }} 
+        whileInView={{ scale: 1, opacity: 1 }} 
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="text-[14vw] md:text-[8vw] font-black italic tracking-tighter leading-[0.8] text-white uppercase mb-12"
       >
-        EGE <span className="text-gold">RENTALS</span>
+        EGE <br /> <span className="text-outline">RENTALS</span>
       </motion.h1>
-
-      <motion.p 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="text-white/40 text-sm md:text-lg font-light tracking-[0.4em] uppercase max-w-2xl mx-auto mb-16"
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.8 }}
       >
-        NY • NJ • CT • FL • Luxury & Exotic Collections
-      </motion.p>
-
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1.5 }}
-        className="flex flex-col md:flex-row justify-center items-center gap-8"
-      >
-        <button className="px-12 py-5 bg-gold text-black font-bold uppercase tracking-[0.3em] text-xs transition-transform hover:scale-105 hover:bg-gold-light active:scale-95 shadow-[0_0_40px_rgba(212,175,55,0.2)]">
-          Explore Collection
-        </button>
-        <button className="px-12 py-5 border border-white/20 text-white font-bold uppercase tracking-[0.3em] text-xs transition-colors hover:bg-white/10">
-          Inquire Now
+        <button className="px-16 py-6 bg-[#C5A47E] text-black font-sans font-black uppercase text-xs tracking-[0.4em] rounded-sm transition-all hover:scale-105 hover:bg-[#DBC1A2] active:scale-95 shadow-[0_0_50px_rgba(197,164,126,0.2)]">
+          Inquiry Open
         </button>
       </motion.div>
     </div>
-
+    
     <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20">
       <motion.div 
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
-        className="w-px h-16 bg-gradient-to-b from-gold to-transparent opacity-50"
+        className="w-px h-12 bg-gradient-to-b from-[#C5A47E] to-transparent opacity-40"
       />
     </div>
   </section>
